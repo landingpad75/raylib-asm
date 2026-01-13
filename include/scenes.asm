@@ -1,0 +1,2 @@
+extern GameScene_DRAW
+extern GameScene_UPDATE

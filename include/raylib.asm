@@ -11,3 +11,4 @@ extern ClearBackground
 extern puts
 extern GetFrameTime
 extern GetRandomValue
+extern ToggleBorderlessWindowed
