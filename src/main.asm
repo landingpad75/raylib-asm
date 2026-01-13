@@ -1,6 +1,8 @@
 [bits 64]
 
 global main
+global x
+global y
 
 %include "include/raylibasm.asm"
 
@@ -14,34 +16,35 @@ main:
 
     call InitWindow
 
-    mov rcx, 60
-    call SetTargetFPS
+    ; mov rcx, 60
+    ; call SetTargetFPS
 
 .loop:
     call WindowShouldClose 
     test al, al
     jnz .end
 
-    call mvup
-    call mvdn
-    call mvlt
-    call mvrt
+    ; UPDATE
     call fscreen
+    mov rdx, 0
+    test rdx, [rel currentScreen]
+    jnz .aftercscr1
 
+    call GameScene_UPDATE
+.aftercscr1:
+    ; DRAW
     call BeginDrawing
 
     mov rcx, [rel BLACK] ; this should be black
     call ClearBackground
 
-    mov rcx, [rel x]
-    mov rdx, [rel y]
-    mov r8d, 50
-    mov r9d, 50
-
-    mov rax, [rel RED]
-    mov [rsp + 32], rax
-
-    call DrawRectangle
+    mov rdx, 0
+    test [rel currentScreen], rdx
+    jnz .aftercscr1d ; so this does work
+    
+    ; void DrawRectangle(int posX, int posY, int width, int height, Color color);
+    call GameScene_DRAW
+.aftercscr1d:
 
     mov rcx, 20
     mov rdx, 20
@@ -59,9 +62,6 @@ spawnTriangle: ; maybe some enemies?
     ret
 
 section .data
-global x
-global y
-
 currentScreen: db 0 ; max would be 255 screens, too many so nothign to worry about
 
 windowName: db "raysm :)", 0

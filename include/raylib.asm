@@ -5,6 +5,7 @@ extern BeginDrawing
 extern EndDrawing
 extern DrawRectangle
 extern IsKeyDown
+extern IsKeyPressed
 extern DrawFPS
 extern CloseWindow
 extern ClearBackground
