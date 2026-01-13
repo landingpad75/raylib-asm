@@ -16,8 +16,8 @@ main:
 
     call InitWindow
 
-    mov rcx, 60
-    call SetTargetFPS
+    ; mov rcx, 60
+    ; call SetTargetFPS
 
 .loop:
     call WindowShouldClose 

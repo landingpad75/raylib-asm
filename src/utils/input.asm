@@ -6,7 +6,18 @@
     test al, al
 %endmacro
 
+%macro _KeyPressed 1
+    mov rcx, %1
+    call IsKeyPressed
+    test al, al
+%endmacro
+
 %include "include/raylib.asm"
+
+section .data
+speed: dd 200.0
+accum_x: dd 0.0
+accum_y: dd 0.0
 
 section .text
 
@@ -23,49 +34,100 @@ global fscreen
 extern x
 extern y
 
-speed equ 5
-
-; mvsub, takes rax as input1, value goes back to rax + x variable
 mvxsub:
-    push rax
-    
-    mov rax, [rel x]
-    sub rax, speed 
-    mov [rel x], rax
-    
-    pop rax
+    sub rsp, 40
+    call GetFrameTime
+    mulss xmm0, [rel speed]
+
+    movss xmm1, [rel accum_x]
+    subss xmm1, xmm0
+    movss [rel accum_x], xmm1
+
+    cvttss2si rax, xmm1
+    cmp rax, 0
+    jge .done
+
+    add [rel x], rax
+
+    cvtsi2ss xmm0, rax
+    subss xmm1, xmm0
+    movss [rel accum_x], xmm1
+
+.done:
+    add rsp, 40
     ret
-; mvadd, takes rax as input1, value goes back to rax + x variable
+
 mvxadd:
-    push rax
+    sub rsp, 40
+    call GetFrameTime
+    mulss xmm0, [rel speed]
 
-    mov rax, [rel x]
-    add rax, speed
-    mov [rel x], rax
-    
-    pop rax
+    movss xmm1, [rel accum_x]
+    addss xmm1, xmm0
+    movss [rel accum_x], xmm1
+
+    cvttss2si rax, xmm1
+    cmp rax, 0
+    jle .done
+
+    add [rel x], rax
+
+    cvtsi2ss xmm0, rax
+    subss xmm1, xmm0
+    movss [rel accum_x], xmm1
+
+.done:
+    add rsp, 40
     ret
-; mvsub, takes rax as input1, value goes back to rax + y variable
+
 mvysub:
-    push rax
+    sub rsp, 40
+    call GetFrameTime
+    mulss xmm0, [rel speed]
 
-    mov rax, [rel y]
-    sub rax, speed
-    mov [rel y], rax
+    movss xmm1, [rel accum_y]
+    subss xmm1, xmm0
+    movss [rel accum_y], xmm1
 
-    pop rax
+    cvttss2si rax, xmm1
+    cmp rax, 0
+    jge .done
+
+    add [rel y], rax
+
+    cvtsi2ss xmm0, rax
+    subss xmm1, xmm0
+    movss [rel accum_y], xmm1
+
+.done:
+    add rsp, 40
     ret
-; mvadd, takes rax as input1, value goes back to rax + y variable
-mvyadd:
-    mov rax, [rel y]
-    add rax, speed
-    mov [rel y], rax
 
-    pop rax
+mvyadd:
+    sub rsp, 40
+    call GetFrameTime
+    mulss xmm0, [rel speed]
+
+    movss xmm1, [rel accum_y]
+    addss xmm1, xmm0
+    movss [rel accum_y], xmm1
+
+    cvttss2si rax, xmm1
+    cmp rax, 0
+    jle .done
+
+    add [rel y], rax
+
+    cvtsi2ss xmm0, rax
+    subss xmm1, xmm0
+    movss [rel accum_y], xmm1
+
+.done:
+    add rsp, 40
     ret
 
 fscreen:
-    _KeyDown 300
+    _KeyPressed 300
     jz done
 
     call ToggleBorderlessWindowed

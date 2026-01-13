@@ -13,15 +13,18 @@ global GameScene_DRAW
 global GameScene_UPDATE
 
 GameScene_DRAW:
-    mov rcx, [rel x]
-    mov rdx, [rel y]
+    sub rsp, 40
+
+    mov ecx, [rel x]
+    mov edx, [rel y]
     mov r8d, 50
     mov r9d, 50
 
-    mov rax, [rel RED]
-    mov [rsp + 32], rax
+    mov eax, [rel RED]
+    mov [rsp + 32], eax
 
     call DrawRectangle
+    add rsp, 40
     ret
 
 
