@@ -8,7 +8,7 @@ global main
     test al, al
 %endmacro
 
-%include "include/raylib.inc"
+%include "include/raylib.asm"
 
 section .text
 main:
