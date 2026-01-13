@@ -1,0 +1,13 @@
+extern InitWindow
+extern SetTargetFPS
+extern WindowShouldClose
+extern BeginDrawing
+extern EndDrawing
+extern DrawRectangle
+extern IsKeyDown
+extern DrawFPS
+extern CloseWindow
+extern ClearBackground
+extern puts
+extern GetFrameTime
+extern GetRandomValue
