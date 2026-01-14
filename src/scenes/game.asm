@@ -13,22 +13,23 @@ global GameScene_DRAW
 global GameScene_UPDATE
 
 GameScene_DRAW:
-    sub rsp, 40
+    sub rsp, 40 ; set up the stack
 
-    mov ecx, [rel x]
-    mov edx, [rel y]
-    mov r8d, 50
-    mov r9d, 50
+    mov ecx, [rel x] ; int x
+    mov edx, [rel y] ; int y
+    mov r8d, 50 ; int w
+    mov r9d, 50 ; int h
 
     mov eax, [rel RED]
-    mov [rsp + 32], eax
+    mov [rsp + 32], eax ; Color color
 
-    call DrawRectangle
-    add rsp, 40
+    call DrawRectangle ; DrawRectangle(x, y, w, h, color)
+    add rsp, 40 ; clear stack
     ret
 
 
 GameScene_UPDATE:
+    ; call movement condition functions
     call mvup
     call mvdn
     call mvlt

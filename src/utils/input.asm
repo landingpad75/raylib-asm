@@ -127,35 +127,35 @@ mvyadd:
     ret
 
 fscreen:
-    _KeyPressed 300
+    _KeyPressed 300 ; KEY_F11 = 300
     jz done
 
     call ToggleBorderlessWindowed
     ret
 
 mvup:
-    _KeyDown 87
+    _KeyDown 87 ; KEY_W = 87
     jz done
     
     call mvysub
     ret
 
 mvdn:
-    _KeyDown 83
+    _KeyDown 83 ; KEY_S = 83
     jz done
 
     call mvyadd
     ret
 
 mvlt:
-    _KeyDown 65
+    _KeyDown 65 ; KEY_A = 65
     jz done
 
     call mvxsub
     ret
 
 mvrt:
-    _KeyDown 68
+    _KeyDown 68 ; KEY_D = 68
     jz done
 
     call mvxadd
